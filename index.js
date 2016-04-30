@@ -10,20 +10,27 @@ function onOpen(tab) {
 
 function onActivate(tab) {
   console.log('tab activated, timer canceled: ' + tab.id)
-  var tid = timers[tab.id];
-  clearTimeout(tid);
+  var tid = setTimeout(function(){
+    tab.pin()
+    tab.unpin()
+    console.log("tab was inactive for too long, move the the end")
+  }, 3000);
+  timers[tab.id] = tid;
 }
 
 function onDeactivate(tab) {
   console.log('tab deactivated: ' + tab.id)
+  var tid = timers[tab.id];
+  clearTimeout(tid);
+  /*
   var tid = setTimeout(function(){
     tab.pin()
     tab.unpin()
     console.log("tab was inactive for too long, move the the end")
   }, timeout * 60 * 1000);
+  */
   console.log('timer started: ' + tab.id)
 
-  timers[tab.id] = tid;
 }
 
 tabs.on('open', onOpen);
