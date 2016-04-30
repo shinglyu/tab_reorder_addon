@@ -1,0 +1,23 @@
+{
+  "title": "Tabs Reorder",
+  "name": "tabreorder",
+  "version": "0.0.1",
+  "description": "Move idle tabs to the end of the list",
+  "main": "index.js",
+  "author": "Shing Lyu <shing.lyu@gmail.com>",
+  "engines": {
+    "firefox": ">=38.0a1",
+    "fennec": ">=38.0a1"
+  },
+  "license": "MPLv2",
+  "keywords": [
+    "jetpack"
+  ],
+  "preferences": [{
+    "name": "timeout",
+    "title": "Move inactive tab to the end after (mins)",
+    "description": "Move inactive tab to the end after (mins)",
+    "type": "integer",
+    "value": 10
+  }]
+}
