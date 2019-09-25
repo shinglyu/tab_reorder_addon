@@ -1,12 +1,4 @@
 #Tabs Reorder
-Move idle tabs to the end of the list
+Move idle tabs to the end (i.e. right)
 
-# Test Run
-```
-jpm run -b /usr/bin/firefox
-```
-
-# Build
-```
-jpm xpi
-```
+The default idle timeout is 15 min
