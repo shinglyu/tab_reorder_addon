@@ -1,13 +1,16 @@
 let lastActive = {}
 let moveInactiveTimers = {}
-//let closeInactiveTimers = {}
+let closeInactiveTimers = {}
 
 const options = {
-  moveActiveToFront: true,
+  moveActiveToFront: false,
   moveToFrontTimeout: 200, // ms
-  moveInactiveToEnd: false,
+
+  moveInactiveToEnd: true,
   moveToEndTimeout: 15 * 60 * 1000, // ms
-  //moveToEndTimeout: 2 * 1000, // ms
+
+  closeInactive: true,
+  closeTimeout: 45 * 60 * 1000, // ms
 }
 
 function moveActiveToFront(event) {
@@ -22,6 +25,7 @@ function moveActiveToFront(event) {
 }
 
 function moveInactiveToEnd(event) {
+  console.log("Start move inactive to end")
   console.log(`Disabling idle timer for: ${event.windowId}:${event.tabId}`)
   // TODO
   if (moveInactiveTimers[event.windowId] && moveInactiveTimers[event.windowId][event.tabId]) {
@@ -40,7 +44,31 @@ function moveInactiveToEnd(event) {
       }
     })(lastActive[event.windowId]), options.moveToEndTimeout)
   }
-  console.log(`Setting the last active tab to: ${event.windowId}: ${event.tabId}`)
+  console.log(`Setting the last active tab to: W${event.windowId}:T${event.tabId}`)
+  lastActive[event.windowId] = event.tabId
+}
+
+function closeInactive(event) {
+  console.log("Start close inactive")
+  console.log(`Disabling idle timer for: ${event.windowId}:${event.tabId}`)
+  // TODO
+  if (closeInactiveTimers[event.windowId] && closeInactiveTimers[event.windowId][event.tabId]) {
+    clearTimeout(closeInactiveTimers[event.windowId][event.tabId])
+  }
+  if (lastActive[event.windowId]) {
+    console.log(`Starting the idle timer for last active tab: ${event.windowId}:${lastActive[event.windowId]}`)
+    if (!closeInactiveTimers[event.windowId]) {
+      closeInactiveTimers[event.windowId] = {}
+    }
+    closeInactiveTimers[event.windowId][event.tabId] = setTimeout(((tabId) => {
+      // using a closure to capture the event.tabId in the callback
+      return () => {
+        console.log(`Closing the tab: ${tabId}`)
+        chrome.tabs.remove(tabId)
+      }
+    })(lastActive[event.windowId]), options.closeTimeout)
+  }
+  console.log(`Setting the last active tab to: W${event.windowId}:T${event.tabId}`)
   lastActive[event.windowId] = event.tabId
 }
 
@@ -51,5 +79,8 @@ chrome.tabs.onActivated.addListener((event) => {
     }
     if (options.moveInactiveToEnd) {
       moveInactiveToEnd(event)
+    }
+    if (options.closeInactive) {
+      closeInactive(event)
     }
 })
