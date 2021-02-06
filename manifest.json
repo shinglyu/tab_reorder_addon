@@ -1,8 +1,8 @@
 {
-    "name": "Move idle tab to right",
-    "author": "Shing Lyu <shing.lyu@gmail.com>",
+    "name": "TabShuffler",
+    "author": "Shing Lyu",
     "version": "0.0.2",
-    "description": "Move idle tabs to the right",
+    "description": "Auto-organize your tabs based on activity; Auto-close idle tabs",
     "background": {
         "scripts": ["background.js"],
         "persistent": false

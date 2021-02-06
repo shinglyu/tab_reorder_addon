@@ -84,3 +84,11 @@ chrome.tabs.onActivated.addListener((event) => {
       closeInactive(event)
     }
 })
+
+if(typeof module !== "undefined") {
+  module.exports = {
+    moveActiveToFront,
+    moveInactiveToEnd,
+    closeInactive,
+  }
+}
