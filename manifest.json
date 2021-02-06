@@ -4,11 +4,15 @@
     "version": "0.0.2",
     "description": "Auto-organize your tabs based on activity; Auto-close idle tabs",
     "background": {
-        "scripts": ["background.js"],
+        "scripts": ["src/background.js"],
         "persistent": false
     },
     "manifest_version": 2,
     "permissions": [
-        "tabs"
-    ]
+        "tabs",
+        "storage"
+    ],
+  "options_ui": {
+    "page": "src/options.html"
+  }
 }

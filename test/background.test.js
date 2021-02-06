@@ -1,5 +1,5 @@
 Object.assign(global, require('jest-chrome'))
-const bg = require("../background.js")
+const bg = require("../src/background.js")
 
 jest.useFakeTimers()
 
